@@ -560,7 +560,7 @@ export default function Index() {
         </div>
       </motion.section>
 
-      {/* Contact Section */}
+    {/* Contact Section */}
       <motion.section
         ref={contactRef}
         id="contact"
@@ -584,61 +584,62 @@ export default function Index() {
             animate={contactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-             Let's connect and create something impactful together.
-             From startups to enterprise apps, I'm ready to jump in and contribute wherever I can.
+            I'm always interested in new opportunities and exciting projects.
+            Let's discuss how we can bring your ideas to life.
           </motion.p>
           <motion.div
+            className="flex flex-col sm:flex-row gap-4 justify-center"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={contactInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
           >
+            <motion.div
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button size="lg" className="text-lg px-8 py-3 relative overflow-hidden" asChild>
+                <Link to="/contact">
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.6 }}
+                  />
+                  <motion.div
+                    animate={{
+                      rotate: [0, 10, -10, 0],
+                      scale: [1, 1.1, 1]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      repeatDelay: 3
+                    }}
+                  >
+                    <Mail className="mr-2 h-5 w-5" />
+                  </motion.div>
+                  Contact Me
+                </Link>
+              </Button>
+            </motion.div>
 
-
-            <Button size="lg" className="text-lg px-8 py-3 relative overflow-hidden" asChild>
-              <Link to="/contact">
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: "100%" }}
-                  transition={{ duration: 0.6 }}
-                />
-                <motion.div
-                  animate={{
-                    rotate: [0, 10, -10, 0],
-                    scale: [1, 1.1, 1]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    repeatDelay: 3
-                  }}
-                >
-                  <Mail className="mr-2 h-5 w-5" />
-                </motion.div>
-                Contact Me
-              </Link>
-            </Button>
+            <motion.div
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button variant="outline" size="lg" className="text-lg px-6 py-3" asChild>
+                <a href="/resume.pdf" download="Your-Name-Resume.pdf">
+                  <motion.div
+                    animate={{ y: [0, -2, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                  >
+                    <Download className="mr-2 h-5 w-3" />
+                  </motion.div>
+                  Download Resume
+                </a>
+              </Button>
+            </motion.div>
           </motion.div>
-
-          {/* <motion.div
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400 }}
-              >
-                <Button variant="outline" size="lg" className="text-lg px-8 py-3" asChild>
-                  <a href="/resume.pdf" download="Your-Name-Resume.pdf">
-                    <motion.div
-                      animate={{ y: [0, -2, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-                    >
-                      <Download className="mr-2 h-5 w-5" />
-                    </motion.div>
-                    Download Resume
-                  </a>
-                </Button>
-              </motion.div> */}
         </div>
       </motion.section>
 

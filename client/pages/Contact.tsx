@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, CheckCircle, AlertCircle } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import { motion} from "framer-motion";
 import { Link } from "react-router-dom";
 
@@ -34,41 +35,45 @@ export default function Contact() {
     setSubmitStatus('idle');
 
     try {
-      // EmailJS configuration - Replace with your actual values
-      const serviceId = 'YOUR_SERVICE_ID';
-      const templateId = 'YOUR_TEMPLATE_ID';
-      const publicKey = 'YOUR_PUBLIC_KEY';
+      // Replace 'YOUR_EMAIL@example.com' with your actual email address
+      const formspreeUrl = 'https://formspree.io/f/mrbldqla';
 
-      // Template parameters that will be sent to your email
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
-        to_name: 'Your Name', // Replace with your name
-      };
-
-      await emailjs.send(serviceId, templateId, templateParams, publicKey);
-
-      setSubmitStatus('success');
-      toast.success("Message sent successfully! I'll get back to you soon.");
-
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        subject: "",
-        message: ""
+      const response = await fetch(formspreeUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }),
       });
 
+      if (response.ok) {
+        setSubmitStatus('success');
+        toast.success("Message sent successfully! I'll get back to you soon.");
+
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: ""
+        });
+      } else {
+        throw new Error('Failed to send message');
+      }
+
     } catch (error) {
-      console.error('EmailJS error:', error);
+      console.error('Form submission error:', error);
       setSubmitStatus('error');
       toast.error("Failed to send message. Please try again or contact me directly.");
     } finally {
       setIsSubmitting(false);
     }
- };
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -137,7 +142,7 @@ export default function Contact() {
               </div>
             </nav>
 
-      {/* Contact Header */}
+         {/* Contact Header */}
       <section className="pt-24 pb-12 px-6">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
@@ -176,6 +181,7 @@ export default function Contact() {
                           value={formData.name}
                           onChange={handleInputChange}
                           required
+                          disabled={isSubmitting}
                         />
                       </div>
                       <div className="space-y-2">
@@ -188,6 +194,7 @@ export default function Contact() {
                           value={formData.email}
                           onChange={handleInputChange}
                           required
+                          disabled={isSubmitting}
                         />
                       </div>
                     </div>
@@ -201,6 +208,7 @@ export default function Contact() {
                         value={formData.subject}
                         onChange={handleInputChange}
                         required
+                        disabled={isSubmitting}
                       />
                     </div>
 
@@ -214,6 +222,7 @@ export default function Contact() {
                         value={formData.message}
                         onChange={handleInputChange}
                         required
+                        disabled={isSubmitting}
                       />
                     </div>
 
@@ -249,7 +258,7 @@ export default function Contact() {
                           Send Message
                         </>
                       )}
-                   </Button>
+                    </Button>
                   </form>
                 </CardContent>
               </Card>
